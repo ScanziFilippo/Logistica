@@ -1,0 +1,12 @@
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\bin\Release\Logistica.exe.config
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\bin\Release\Logistica.exe
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\bin\Release\Logistica.pdb
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.csproj.AssemblyReference.cache
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.csproj.SuggestedBindingRedirects.cache
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.Form1.resources
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.Form2.resources
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.Properties.Resources.resources
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.csproj.GenerateResource.cache
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.csproj.CoreCompileInputs.cache
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.exe
+C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.pdb

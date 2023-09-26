@@ -124,7 +124,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.textBoxRighe_TextChanged);
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label2
             // 
@@ -159,6 +159,8 @@
             // 
             // tabellaIniziale
             // 
+            this.tabellaIniziale.AllowUserToAddRows = false;
+            this.tabellaIniziale.AllowUserToDeleteRows = false;
             this.tabellaIniziale.BackgroundColor = System.Drawing.SystemColors.Control;
             this.tabellaIniziale.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tabellaIniziale.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -173,11 +175,13 @@
             // 
             // Column1
             // 
+            this.Column1.FillWeight = 17.13615F;
             this.Column1.HeaderText = "Column1";
             this.Column1.Name = "Column1";
             // 
             // Column2
             // 
+            this.Column2.FillWeight = 182.8638F;
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
             // 
