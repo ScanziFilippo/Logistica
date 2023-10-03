@@ -172,6 +172,7 @@
             this.tabellaIniziale.RowHeadersWidth = 100;
             this.tabellaIniziale.Size = new System.Drawing.Size(954, 467);
             this.tabellaIniziale.TabIndex = 0;
+            this.tabellaIniziale.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabellaIniziale_CellValueChanged);
             // 
             // Column1
             // 

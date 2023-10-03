@@ -44,8 +44,15 @@ namespace Logistica
                         return;
                     }
             }
+            int xVecchie = tabella.ColumnCount;
+            int yVecchie = tabella.RowCount;
             tabella.RowCount = numero +1;
             generaTesto(tabella);
+            if (yVecchie < tabella.ColumnCount && xVecchie < tabella.ColumnCount)
+            {
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = " ";
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
+            }
         }
 
         void aggiornaColonneTabella(DataGridView tabella, int numero)
@@ -64,8 +71,15 @@ namespace Logistica
                     return;
                 }
             }
+            int xVecchie = tabella.ColumnCount;
+            int yVecchie = tabella.RowCount;
             tabella.ColumnCount = numero +1;
             generaTesto(tabella);
+            if (yVecchie < tabella.ColumnCount && xVecchie < tabella.ColumnCount)
+            {
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = " ";
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
+            }
         }
 
         void generaTesto(DataGridView tabella)
@@ -110,6 +124,46 @@ namespace Logistica
                 }
             }
             return false;
+        }
+
+        private void tabellaIniziale_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            calcolaTotale((DataGridView)sender);
+        }
+
+        private void calcolaTotale(DataGridView tabella)
+        {
+            if(tabella.ColumnCount > 0 && tabella.RowCount > 0)
+            {
+                Console.Out.WriteLine("sc");
+                int sommaOrizzontale = 0;
+                for (int colonne = 0; colonne < tabella.ColumnCount - 1; colonne++)
+                {
+                    if (tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != null && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString().All(char.IsDigit))
+                    {
+                        sommaOrizzontale += Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString());
+                    }
+                }
+                int sommaVerticale = 0;
+                for (int righe = 0; righe < tabella.RowCount - 1; righe++)
+                {
+                    if (tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value != null && tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value.ToString().All(char.IsDigit))
+                    {
+                        sommaVerticale += Int32.Parse(tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value.ToString());
+                    }
+                }
+                if(sommaOrizzontale != sommaVerticale)
+                {
+                    tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Value = "######";
+                    tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.ForeColor = Color.Red;
+                }
+                else
+                {
+                    tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Value = sommaOrizzontale;
+                    //tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.Font = new Font("Arial", 10);
+                    tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.ForeColor = Color.Black;
+                }
+            }
         }
     }
 }
