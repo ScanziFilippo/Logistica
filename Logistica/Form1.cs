@@ -36,8 +36,6 @@ namespace Logistica
                     string caption = "La tabella non è vuota";
                     MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                     DialogResult result;
-
-                    // Displays the MessageBox.
                     result = MessageBox.Show(message, caption, buttons);
                     if (result == System.Windows.Forms.DialogResult.No)
                     {
@@ -48,11 +46,8 @@ namespace Logistica
             int yVecchie = tabella.RowCount;
             tabella.RowCount = numero +1;
             generaTesto(tabella);
-            if (yVecchie < tabella.ColumnCount && xVecchie < tabella.ColumnCount)
-            {
-                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = " ";
-                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
-            }
+            if(yVecchie < tabella.ColumnCount && xVecchie < tabella.RowCount)
+            pulisciCellaTotale(tabella, yVecchie, xVecchie);
         }
 
         void aggiornaColonneTabella(DataGridView tabella, int numero)
@@ -75,11 +70,7 @@ namespace Logistica
             int yVecchie = tabella.RowCount;
             tabella.ColumnCount = numero +1;
             generaTesto(tabella);
-            if (yVecchie < tabella.ColumnCount && xVecchie < tabella.ColumnCount)
-            {
-                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = " ";
-                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
-            }
+            pulisciCellaTotale(tabella, yVecchie, xVecchie);
         }
 
         void generaTesto(DataGridView tabella)
@@ -118,7 +109,6 @@ namespace Logistica
                 {
                     if(tabella.Rows[righe].Cells[colonne].Value != null && (tabella.Rows[righe].Cells[colonne].Value.ToString() != "" || tabella.Rows[righe].Cells[colonne].Value.ToString() != null))
                     {
-                        Console.Out.WriteLine(tabella.Rows[righe].Cells[colonne].Value + " non è vuoto");
                         return true;
                     }
                 }
@@ -135,7 +125,7 @@ namespace Logistica
         {
             if(tabella.ColumnCount > 0 && tabella.RowCount > 0)
             {
-                Console.Out.WriteLine("sc");
+                //Console.Out.WriteLine("sc");
                 int sommaOrizzontale = 0;
                 for (int colonne = 0; colonne < tabella.ColumnCount - 1; colonne++)
                 {
@@ -163,6 +153,15 @@ namespace Logistica
                     //tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.Font = new Font("Arial", 10);
                     tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.ForeColor = Color.Black;
                 }
+            }
+        }
+        private void pulisciCellaTotale(DataGridView tabella, int yVecchie, int xVecchie)
+        {
+            if ((yVecchie < tabella.ColumnCount && xVecchie < tabella.RowCount) && yVecchie > 0 && xVecchie > 0)
+            {
+                Console.Out.WriteLine("Cancello " + xVecchie + " " + yVecchie);
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = " ";
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
             }
         }
     }
