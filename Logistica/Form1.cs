@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace Logistica
                     result = MessageBox.Show(message, caption, buttons);
                     if (result == System.Windows.Forms.DialogResult.No)
                     {
+                        numericUpDown1.Value = tabella.RowCount-1;
                         return;
                     }
             }
@@ -46,8 +48,8 @@ namespace Logistica
             int yVecchie = tabella.RowCount;
             tabella.RowCount = numero +1;
             generaTesto(tabella);
-            if(yVecchie < tabella.ColumnCount && xVecchie < tabella.RowCount)
             pulisciCellaTotale(tabella, yVecchie, xVecchie);
+            tabella.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
         void aggiornaColonneTabella(DataGridView tabella, int numero)
@@ -63,6 +65,7 @@ namespace Logistica
                 result = MessageBox.Show(message, caption, buttons);
                 if (result == System.Windows.Forms.DialogResult.No)
                 {
+                    numericUpDown2.Value = tabella.ColumnCount-1;
                     return;
                 }
             }
@@ -71,6 +74,7 @@ namespace Logistica
             tabella.ColumnCount = numero +1;
             generaTesto(tabella);
             pulisciCellaTotale(tabella, yVecchie, xVecchie);
+            tabella.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
         void generaTesto(DataGridView tabella)
@@ -90,7 +94,8 @@ namespace Logistica
             for (int colonne = 0; colonne < tabella.Columns.Count; colonne++)
             {
                 tabella.Columns[colonne].Width = 110;
-                if(colonne == tabella.ColumnCount - 1)
+                tabella.Columns[colonne].SortMode = DataGridViewColumnSortMode.NotSortable;
+                if (colonne == tabella.ColumnCount - 1)
                 {
                     tabella.Columns[colonne].HeaderCell.Value = "Totale";
                 }
@@ -103,12 +108,18 @@ namespace Logistica
 
         private bool presenzaTesto(DataGridView tabella)
         {
-            for (int righe = 0; righe < tabella.Rows.Count; righe++)
+            for (int righe = 0; righe < tabella.Rows.Count; righe++) 
             {
                 for (int colonne = 0; colonne < tabella.Columns.Count; colonne++)
                 {
-                    if(tabella.Rows[righe].Cells[colonne].Value != null && (tabella.Rows[righe].Cells[colonne].Value.ToString() != "" || tabella.Rows[righe].Cells[colonne].Value.ToString() != null))
+                    if(righe == tabella.RowCount - 1 && colonne == tabella.ColumnCount - 1)
                     {
+                        Console.Out.WriteLine("Vuota");
+                        return false;
+                    }
+                    if(tabella.Rows[righe].Cells[colonne].Value != "" &&tabella.Rows[righe].Cells[colonne].Value != null && (tabella.Rows[righe].Cells[colonne].Value.ToString() != "" || tabella.Rows[righe].Cells[colonne].Value.ToString() != null))
+                    {
+                        Console.Out.WriteLine("non vuota perchè " + righe + " " + colonne);
                         return true;
                     }
                 }
@@ -129,7 +140,7 @@ namespace Logistica
                 int sommaOrizzontale = 0;
                 for (int colonne = 0; colonne < tabella.ColumnCount - 1; colonne++)
                 {
-                    if (tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != null && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString().All(char.IsDigit))
+                    if (tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != "" && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != null && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString().All(char.IsDigit))
                     {
                         sommaOrizzontale += Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString());
                     }
@@ -137,7 +148,7 @@ namespace Logistica
                 int sommaVerticale = 0;
                 for (int righe = 0; righe < tabella.RowCount - 1; righe++)
                 {
-                    if (tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value != null && tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value.ToString().All(char.IsDigit))
+                    if (tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value != "" && tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value != null && tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value.ToString().All(char.IsDigit))
                     {
                         sommaVerticale += Int32.Parse(tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value.ToString());
                     }
@@ -157,10 +168,10 @@ namespace Logistica
         }
         private void pulisciCellaTotale(DataGridView tabella, int yVecchie, int xVecchie)
         {
-            if ((yVecchie < tabella.ColumnCount && xVecchie < tabella.RowCount) && yVecchie > 0 && xVecchie > 0)
+            if ((yVecchie <= tabella.RowCount && xVecchie <= tabella.ColumnCount) && yVecchie > 0 && xVecchie > 0)
             {
-                Console.Out.WriteLine("Cancello " + xVecchie + " " + yVecchie);
-                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = " ";
+                //Console.Out.WriteLine("Cancello " + xVecchie + " " + yVecchie);
+                tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Value = "";
                 tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
             }
         }
