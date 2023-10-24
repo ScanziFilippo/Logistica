@@ -175,5 +175,27 @@ namespace Logistica
                 tabella.Rows[yVecchie - 1].Cells[xVecchie - 1].Style.ForeColor = Color.Black;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            generaContenutoCelle(tabellaIniziale);
+        }
+        private void generaContenutoCelle(DataGridView tabella)
+        {
+            int minimo = Int32.Parse(numericUpDown3.Value.ToString());
+            int massimo = Int32.Parse(numericUpDown4.Value.ToString());
+            Random casuale= new Random();
+            for (int righe = 0; righe < tabella.Rows.Count-1; righe++)
+            {
+                for (int colonne = 0; colonne < tabella.Columns.Count-1; colonne++)
+                {
+                    tabella.Rows[righe].Cells[colonne].Value = casuale.Next(minimo, massimo);
+                }
+            }
+        }
+        private void generaTotali()
+        {
+
+        }
     }
 }
