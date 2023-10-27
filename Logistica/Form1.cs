@@ -16,7 +16,9 @@ namespace Logistica
         public Form1() 
         {
             InitializeComponent();
+            this.AllowTransparency = false;
             tabellaIniziale.Font = new Font("Arial", 10);
+            tabellaIniziale.ForeColor = Color.Black;
             aggiornaRigheTabella(tabellaIniziale, 1);
         }
 
@@ -189,7 +191,7 @@ namespace Logistica
             {
                 for (int colonne = 0; colonne < tabella.Columns.Count-1; colonne++)
                 {
-                    tabella.Rows[righe].Cells[colonne].Value = casuale.Next(minimo, massimo);
+                    tabella.Rows[righe].Cells[colonne].Value = casuale.Next(minimo, massimo+1);
                 }
             }
         }
