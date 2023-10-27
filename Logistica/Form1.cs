@@ -17,9 +17,12 @@ namespace Logistica
         {
             InitializeComponent();
             this.AllowTransparency = false;
+            /*BackColor = Color.Azure;
+            TransparencyKey = Color.Azure;*/
             tabellaIniziale.Font = new Font("Arial", 10);
             tabellaIniziale.ForeColor = Color.Black;
             aggiornaRigheTabella(tabellaIniziale, 1);
+            
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
