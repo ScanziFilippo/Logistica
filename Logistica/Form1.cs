@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,7 +22,8 @@ namespace Logistica
             TransparencyKey = Color.Azure;*/
             tabellaIniziale.Font = new Font("Arial", 10);
             tabellaIniziale.ForeColor = Color.Black;
-            aggiornaRigheTabella(tabellaIniziale, 1);
+            aggiornaRigheTabella(tabellaIniziale, 3);
+            aggiornaColonneTabella(tabellaIniziale, 3);
             
         }
 
@@ -142,30 +144,16 @@ namespace Logistica
             if(tabella.ColumnCount > 0 && tabella.RowCount > 0)
             {
                 //Console.Out.WriteLine("sc");
-                int sommaOrizzontale = 0;
-                for (int colonne = 0; colonne < tabella.ColumnCount - 1; colonne++)
-                {
-                    if (tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != "" && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != null && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString().All(char.IsDigit))
-                    {
-                        sommaOrizzontale += Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString());
-                    }
-                }
-                int sommaVerticale = 0;
-                for (int righe = 0; righe < tabella.RowCount - 1; righe++)
-                {
-                    if (tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value != "" && tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value != null && tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value.ToString().All(char.IsDigit))
-                    {
-                        sommaVerticale += Int32.Parse(tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value.ToString());
-                    }
-                }
-                if(sommaOrizzontale != sommaVerticale)
+                
+                
+                if(sommaOrizzontale(tabella) != sommaVerticale(tabella))
                 {
                     tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Value = "######";
                     tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.ForeColor = Color.Red;
                 }
                 else
                 {
-                    tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Value = sommaOrizzontale;
+                    tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Value = sommaOrizzontale(tabella);
                     //tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.Font = new Font("Arial", 10);
                     tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 1].Style.ForeColor = Color.Black;
                 }
@@ -198,9 +186,67 @@ namespace Logistica
                 }
             }
         }
-        private void generaTotali()
+        private void generaTotali(DataGridView tabella)
         {
+            int minimo = Int32.Parse(numericUpDown6.Value.ToString());
+            int massimo = Int32.Parse(numericUpDown5.Value.ToString());
+            //int totale = new Random().Next(minimo, massimo + 1);
+            Random casuale = new Random();
+            //Console.Out.WriteLine(totale.ToString());
+            for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
+            {
+                tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value = casuale.Next(minimo, massimo + 1);
+            }
+            for (int colonne = 0; colonne < tabella.Columns.Count - 1; colonne++)
+            {
+                tabella.Rows[tabella.RowCount-1].Cells[colonne].Value = casuale.Next(minimo, massimo + 1);
+            }
+            int differenza = sommaVerticale(tabella) - sommaOrizzontale(tabella);
+            //da fare if per sapere quale piu grande e decidere dove mettere il "fittizio"
+            Thread.Sleep(1000);
+            Console.WriteLine("SO: " + sommaOrizzontale(tabella) + " SV: " + sommaVerticale(tabella));
+            tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 2].Value = sommaVerticale(tabella) - sommaOrizzontale(tabella);
 
+            /*for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
+            {
+                int prossimo = casuale.Next(0, totale + 1);
+                tabella.Rows[righe].Cells[tabella.ColumnCount-1].Value = prossimo;
+                totale -= prossimo;
+            }
+            /*for (int colonne = 0; colonne < tabella.Columns.Count - 1; colonne++)
+            {
+                tabella.Rows[righe].Cells[colonne].Value = casuale.Next(minimo, massimo + 1);
+            }*/
+        }
+
+        private int sommaOrizzontale(DataGridView tabella)
+        {
+            int sommaOrizzontale = 0;
+            for (int colonne = 0; colonne < tabella.ColumnCount - 1; colonne++)
+            {
+                if (tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != "" && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value != null && tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString().All(char.IsDigit))
+                {
+                    sommaOrizzontale += Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value.ToString());
+                }
+            }
+            return sommaOrizzontale;
+        }
+        private int sommaVerticale(DataGridView tabella)
+        {
+            int sommaVerticale = 0;
+            for (int righe = 0; righe < tabella.RowCount - 1; righe++)
+            {
+                if (tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value != "" && tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value != null && tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value.ToString().All(char.IsDigit))
+                {
+                    sommaVerticale += Int32.Parse(tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value.ToString());
+                }
+            }
+            return sommaVerticale;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            generaTotali(tabellaIniziale);
         }
     }
 }
