@@ -203,9 +203,15 @@ namespace Logistica
             }
             int differenza = sommaVerticale(tabella) - sommaOrizzontale(tabella);
             //da fare if per sapere quale piu grande e decidere dove mettere il "fittizio"
-            Thread.Sleep(1000);
+            if (differenza > 0)
+            {
+                tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 2].Value = Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 2].Value.ToString()) + sommaVerticale(tabella) - sommaOrizzontale(tabella);
+            }
+            else if(differenza < 0)
+            {
+                tabella.Rows[tabella.RowCount - 2].Cells[tabella.ColumnCount - 1].Value = Int32.Parse(tabella.Rows[tabella.RowCount - 2].Cells[tabella.ColumnCount - 1].Value.ToString()) + sommaOrizzontale(tabella) - sommaVerticale(tabella);
+            }
             Console.WriteLine("SO: " + sommaOrizzontale(tabella) + " SV: " + sommaVerticale(tabella));
-            tabella.Rows[tabella.RowCount - 1].Cells[tabella.ColumnCount - 2].Value = sommaVerticale(tabella) - sommaOrizzontale(tabella);
 
             /*for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
             {
@@ -247,6 +253,39 @@ namespace Logistica
         private void button2_Click(object sender, EventArgs e)
         {
             generaTotali(tabellaIniziale);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            eliminaContenutoCelle(tabellaIniziale);
+        }
+
+        private void eliminaContenutoCelle(DataGridView tabella)
+        {
+            for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
+            {
+                for (int colonne = 0; colonne < tabella.Columns.Count - 1; colonne++)
+                {
+                    tabella.Rows[righe].Cells[colonne].Value = "";
+                }
+            }
+        }
+
+        private void eliminaTotali(DataGridView tabella)
+        {
+            for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
+            {
+                tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value = "";
+            }
+            for (int colonne = 0; colonne < tabella.Columns.Count - 1; colonne++)
+            {
+                tabella.Rows[tabella.RowCount - 1].Cells[colonne].Value = "";
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            eliminaTotali(tabellaIniziale);
         }
     }
 }
