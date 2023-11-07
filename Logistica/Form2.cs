@@ -15,6 +15,9 @@ namespace Logistica
         public Form2()
         {
             InitializeComponent();
+            //this.AllowTransparency = true;
+            /*BackColor = Color.Azure;
+            TransparencyKey = Color.Azure;*/
         }
     }
 }
