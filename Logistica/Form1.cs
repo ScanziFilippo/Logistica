@@ -56,7 +56,7 @@ namespace Logistica
             tabella.RowCount = numero +1;
             generaTesto(tabella);
             pulisciCellaTotale(tabella, yVecchie, xVecchie);
-            tabella.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+            //tabella.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
         void aggiornaColonneTabella(DataGridView tabella, int numero)
@@ -81,7 +81,7 @@ namespace Logistica
             tabella.ColumnCount = numero +1;
             generaTesto(tabella);
             pulisciCellaTotale(tabella, yVecchie, xVecchie);
-            tabella.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+            //tabella.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
         void generaTesto(DataGridView tabella)
@@ -286,6 +286,63 @@ namespace Logistica
         private void button4_Click(object sender, EventArgs e)
         {
             eliminaTotali(tabellaIniziale);
+        }
+
+        DataGridView duplicaTabella(DataGridView tabella)
+        {
+            DataGridView tabellaNuova = new DataGridView();
+
+            // Copia le colonne dalla DataGridView originale a quella duplicata
+            foreach (DataGridViewColumn col in tabella.Columns)
+            {
+                tabellaNuova.Columns.Add(col.Clone() as DataGridViewColumn);
+            }
+
+            // Copia i dati dalla DataGridView originale a quella duplicata
+            foreach (DataGridViewRow row in tabella.Rows)
+            {
+                int rowIndex = tabellaNuova.Rows.Add(row.Clone() as DataGridViewRow);
+
+                for (int i = 0; i < row.Cells.Count; i++)
+                {
+                    tabellaNuova.Rows[rowIndex].Cells[i].Value = row.Cells[i].Value;
+                }
+            }
+            tabellaNuova.Location = tabella.Location;
+            tabellaNuova.Margin = tabella.Margin;
+            tabellaNuova.Size = tabella.Size;
+            tabellaNuova.Dock = DockStyle.Fill;
+            tabellaNuova.Font = tabella.Font;
+            tabellaNuova.ForeColor = tabella.ForeColor;
+            tabellaNuova.GridColor = tabella.GridColor;
+            tabellaNuova.BackgroundColor = tabella.BackgroundColor;
+            return tabellaNuova;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (tabControl1.TabCount > 1)
+            {
+                tabControl1.TabPages.RemoveAt(1);
+                tabControl1.TabPages.RemoveAt(1);
+            }
+            tabControl1.TabPages.Add(new TabPage("Nord-Ovest"));
+            tabControl1.TabPages.Add(new TabPage("Minimi Costi"));
+            DataGridView coc = duplicaTabella(tabellaIniziale);
+            DataGridView coc2 = duplicaTabella(tabellaIniziale);
+            tabControl1.TabPages[1].Controls.Add(coc);
+            generaTesto(coc);
+            tabControl1.TabPages[2].Controls.Add(duplicaTabella(tabellaIniziale));
+            //metodoNordOvest()
+        }
+
+        private void metodoNordOvest(DataGridView tabella)
+        {
+
+        }
+        private void metodoMinimiCosti(DataGridView tabella)
+        {
+
         }
     }
 }

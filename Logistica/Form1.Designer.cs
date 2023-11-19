@@ -44,6 +44,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button5 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -55,7 +56,6 @@
             this.tabellaIniziale = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button5 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
@@ -272,6 +272,16 @@
             this.panel3.Size = new System.Drawing.Size(251, 100);
             this.panel3.TabIndex = 1;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(22, 10);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(205, 74);
+            this.button5.TabIndex = 14;
+            this.button5.Text = "RISOLVI TUTTO!";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -381,7 +391,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1432, 441);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Tabella";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabellaIniziale
@@ -420,15 +430,6 @@
             this.Column2.FillWeight = 182.8638F;
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(22, 10);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(205, 74);
-            this.button5.TabIndex = 14;
-            this.button5.Text = "RISOLVI TUTTO!";
-            this.button5.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
