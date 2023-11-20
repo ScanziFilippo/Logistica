@@ -291,12 +291,12 @@ namespace Logistica
         DataGridView duplicaTabella(DataGridView tabella)
         {
             DataGridView tabellaNuova = new DataGridView();
-
             // Copia le colonne dalla DataGridView originale a quella duplicata
             foreach (DataGridViewColumn col in tabella.Columns)
             {
                 tabellaNuova.Columns.Add(col.Clone() as DataGridViewColumn);
             }
+            //tabellaNuova.Rows.RemoveAt(tabellaNuova.Columns.Count-1);
 
             // Copia i dati dalla DataGridView originale a quella duplicata
             foreach (DataGridViewRow row in tabella.Rows)
@@ -308,6 +308,9 @@ namespace Logistica
                     tabellaNuova.Rows[rowIndex].Cells[i].Value = row.Cells[i].Value;
                 }
             }
+            tabellaNuova.AllowUserToAddRows = false;
+            tabellaNuova.AllowUserToDeleteRows = false;
+            //tabellaNuova.Rows.RemoveAt(tabellaNuova.Columns.Count - 1);
             tabellaNuova.Location = tabella.Location;
             tabellaNuova.Margin = tabella.Margin;
             tabellaNuova.Size = tabella.Size;
@@ -316,11 +319,19 @@ namespace Logistica
             tabellaNuova.ForeColor = tabella.ForeColor;
             tabellaNuova.GridColor = tabella.GridColor;
             tabellaNuova.BackgroundColor = tabella.BackgroundColor;
+            generaTesto(tabellaNuova);
+            tabellaNuova.DefaultCellStyle = tabella.DefaultCellStyle;
+            tabellaNuova.RowHeadersDefaultCellStyle = tabella.RowHeadersDefaultCellStyle;
+            tabellaNuova.ColumnHeadersDefaultCellStyle = tabella.ColumnHeadersDefaultCellStyle;
+            tabellaNuova.ColumnHeadersHeight = tabella.ColumnHeadersHeight;
+
             return tabellaNuova;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
+            terminale.BackColor = Color.White;
+            terminale.Text="";
             if (tabControl1.TabCount > 1)
             {
                 tabControl1.TabPages.RemoveAt(1);
@@ -328,21 +339,90 @@ namespace Logistica
             }
             tabControl1.TabPages.Add(new TabPage("Nord-Ovest"));
             tabControl1.TabPages.Add(new TabPage("Minimi Costi"));
+            tabControl1.TabPages[1].Padding = tabControl1.TabPages[0].Padding;
+            tabControl1.TabPages[2].Padding = tabControl1.TabPages[0].Padding;
             DataGridView coc = duplicaTabella(tabellaIniziale);
             DataGridView coc2 = duplicaTabella(tabellaIniziale);
             tabControl1.TabPages[1].Controls.Add(coc);
-            generaTesto(coc);
             tabControl1.TabPages[2].Controls.Add(duplicaTabella(tabellaIniziale));
-            //metodoNordOvest()
+            metodoNordOvest(coc);
+            //Thread.Sleep(2000);
+            metodoMinimiCosti(coc2);
+            tabControl1.SelectedIndex = 0;
         }
 
         private void metodoNordOvest(DataGridView tabella)
         {
-
+            tabControl1.SelectedIndex = 1;
+            scriviSulTerminale("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+            scriviSulTerminale("Inizializzando metodo Nord-Ovest\n");
+            while(tabella.ColumnCount > 1 && tabella.RowCount > 1)
+            {
+                consegnaDaA(0, 0, tabella);
+            }
+            scriviSulTerminale("Terminato");
         }
         private void metodoMinimiCosti(DataGridView tabella)
         {
+            tabControl1.SelectedIndex = 2;
+            scriviSulTerminale("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+            scriviSulTerminale("Inizializzando metodo Minimi Costi");
+            scriviSulTerminale("Terminato");
+        }
 
+        private void scriviSulTerminale(String testo)
+        {
+            terminale.Text += "\t" + testo + "\n";
+            terminale.Refresh();
+        }
+
+        private void consegnaDaA(int indiceUP, int indiceD, DataGridView tabella)
+        {
+            if(tabella.RowCount == 1 || tabella.ColumnCount == 1)
+            {
+                return;
+            }
+            if(Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) > Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()))
+            {
+                scriviSulTerminale("Consegno " + tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n");
+                tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value = Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) - Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString());
+                tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value = 0;
+                mostraMossa(1000, tabella);
+                scriviSulTerminale(tabella.Columns[indiceD].HeaderText + " rimossa" + "\n");
+                tabella.Columns.RemoveAt(indiceD);
+                mostraMossa(1000, tabella);
+            }
+            else if(Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) <= Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()))
+            {
+                scriviSulTerminale("Consegno " + tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n");
+                tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value = - Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) + Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString());
+                tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value = 0;
+                mostraMossa(1000, tabella);
+                if (Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()) != 0)
+                {
+                    scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa\n");
+                    tabella.Rows.RemoveAt(indiceUP);
+                    mostraMossa(1000, tabella);
+                }
+                else
+                {
+                    scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa");
+                    tabella.Rows.RemoveAt(indiceUP);
+                }
+                Console.Out.WriteLine(tabella.RowCount + " " + tabella.ColumnCount + " riochiesto " + (tabella.RowCount - 1) + " " + indiceD);
+                if(Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()) == 0)
+                {
+                    scriviSulTerminale(tabella.Columns[indiceD].HeaderText + " rimossa\n");
+                    tabella.Columns.RemoveAt(indiceD);
+                    mostraMossa(1000, tabella);
+                }
+            }
+        }
+
+        private void mostraMossa(int millisecondi, DataGridView tabella)
+        {
+            Thread.Sleep(millisecondi);
+            tabella.Refresh();
         }
     }
 }

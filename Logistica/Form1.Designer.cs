@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.button4 = new System.Windows.Forms.Button();
@@ -56,6 +56,8 @@
             this.tabellaIniziale = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.terminale = new System.Windows.Forms.RichTextBox();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
@@ -70,6 +72,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabellaIniziale)).BeginInit();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -363,14 +366,16 @@
             // 
             // panel4
             // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.BackColor = System.Drawing.Color.Transparent;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel4.Controls.Add(this.tabControl1);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 100);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(20);
-            this.panel4.Size = new System.Drawing.Size(1484, 511);
+            this.panel4.Size = new System.Drawing.Size(1062, 511);
             this.panel4.TabIndex = 1;
             // 
             // tabControl1
@@ -380,7 +385,7 @@
             this.tabControl1.Location = new System.Drawing.Point(20, 20);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1440, 467);
+            this.tabControl1.Size = new System.Drawing.Size(1018, 467);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -389,7 +394,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1432, 441);
+            this.tabPage1.Size = new System.Drawing.Size(1010, 441);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tabella";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -403,19 +408,19 @@
             this.tabellaIniziale.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tabellaIniziale.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tabellaIniziale.DefaultCellStyle = dataGridViewCellStyle8;
             this.tabellaIniziale.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabellaIniziale.Location = new System.Drawing.Point(3, 3);
             this.tabellaIniziale.Name = "tabellaIniziale";
             this.tabellaIniziale.RowHeadersWidth = 100;
-            this.tabellaIniziale.Size = new System.Drawing.Size(1426, 435);
+            this.tabellaIniziale.Size = new System.Drawing.Size(1004, 435);
             this.tabellaIniziale.TabIndex = 0;
             this.tabellaIniziale.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabellaIniziale_CellValueChanged);
             // 
@@ -431,12 +436,35 @@
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
             // 
+            // terminale
+            // 
+            this.terminale.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.terminale.Location = new System.Drawing.Point(20, 20);
+            this.terminale.Name = "terminale";
+            this.terminale.ReadOnly = true;
+            this.terminale.Size = new System.Drawing.Size(380, 467);
+            this.terminale.TabIndex = 2;
+            this.terminale.Text = "";
+            // 
+            // panel6
+            // 
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel6.Controls.Add(this.terminale);
+            this.panel6.Location = new System.Drawing.Point(1060, 100);
+            this.panel6.Name = "panel6";
+            this.panel6.Padding = new System.Windows.Forms.Padding(20);
+            this.panel6.Size = new System.Drawing.Size(424, 511);
+            this.panel6.TabIndex = 3;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1484, 611);
+            this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(1500, 650);
@@ -461,6 +489,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabellaIniziale)).EndInit();
+            this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -494,6 +523,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.RichTextBox terminale;
+        private System.Windows.Forms.Panel panel6;
     }
 }
 
