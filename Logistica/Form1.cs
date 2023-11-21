@@ -14,6 +14,8 @@ namespace Logistica
 {
     public partial class Form1 : Form
     {
+        Color coloreRimozione = Color.FromArgb(255, 252, 122);
+        Color coloreSelezioneCella = Color.LightCoral;
         public Form1() 
         {
             InitializeComponent();
@@ -24,7 +26,6 @@ namespace Logistica
             tabellaIniziale.ForeColor = Color.Black;
             aggiornaRigheTabella(tabellaIniziale, 3);
             aggiornaColonneTabella(tabellaIniziale, 3);
-            
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -310,7 +311,8 @@ namespace Logistica
             }
             tabellaNuova.AllowUserToAddRows = false;
             tabellaNuova.AllowUserToDeleteRows = false;
-            //tabellaNuova.Rows.RemoveAt(tabellaNuova.Columns.Count - 1);
+            tabellaNuova.ClearSelection();
+            tabellaNuova.ReadOnly = true;
             tabellaNuova.Location = tabella.Location;
             tabellaNuova.Margin = tabella.Margin;
             tabellaNuova.Size = tabella.Size;
@@ -324,10 +326,14 @@ namespace Logistica
             tabellaNuova.RowHeadersDefaultCellStyle = tabella.RowHeadersDefaultCellStyle;
             tabellaNuova.ColumnHeadersDefaultCellStyle = tabella.ColumnHeadersDefaultCellStyle;
             tabellaNuova.ColumnHeadersHeight = tabella.ColumnHeadersHeight;
-
+            tabellaNuova.SelectionChanged += dataGridView_SelectionChanged;
             return tabellaNuova;
         }
 
+        private void dataGridView_SelectionChanged(Object sender, EventArgs e)
+        {
+            ((DataGridView)sender).ClearSelection();
+        }
         private void button5_Click(object sender, EventArgs e)
         {
             terminale.BackColor = Color.White;
@@ -344,9 +350,8 @@ namespace Logistica
             DataGridView coc = duplicaTabella(tabellaIniziale);
             DataGridView coc2 = duplicaTabella(tabellaIniziale);
             tabControl1.TabPages[1].Controls.Add(coc);
-            tabControl1.TabPages[2].Controls.Add(duplicaTabella(tabellaIniziale));
+            tabControl1.TabPages[2].Controls.Add(coc2);
             metodoNordOvest(coc);
-            //Thread.Sleep(2000);
             metodoMinimiCosti(coc2);
             tabControl1.SelectedIndex = 0;
         }
@@ -356,18 +361,65 @@ namespace Logistica
             tabControl1.SelectedIndex = 1;
             scriviSulTerminale("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
             scriviSulTerminale("Inizializzando metodo Nord-Ovest\n");
+            int costoTotale = 0;
             while(tabella.ColumnCount > 1 && tabella.RowCount > 1)
             {
-                consegnaDaA(0, 0, tabella);
+                costoTotale += consegnaDaA(0, 0, tabella);
             }
-            scriviSulTerminale("Terminato");
+            tabella.Rows[0].Cells[0].Value = costoTotale;
+            tabella.Columns[0].HeaderText = "Costo Totale";
+            scriviSulTerminale("Costo totale: " + costoTotale);
+            scriviSulTerminale("Terminato\n");
         }
         private void metodoMinimiCosti(DataGridView tabella)
         {
             tabControl1.SelectedIndex = 2;
             scriviSulTerminale("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
             scriviSulTerminale("Inizializzando metodo Minimi Costi");
+            int costoTotale = 0;
+            while (tabella.ColumnCount > 1 && tabella.RowCount > 1)
+            {
+                costoTotale += consegnaDaA(yMinimo(tabella), xMinimo(tabella), tabella);
+            }
+            tabella.Rows[0].Cells[0].Value = costoTotale;
+            tabella.Columns[0].HeaderText = "Costo Totale";
+            scriviSulTerminale("Costo totale: " + costoTotale);
             scriviSulTerminale("Terminato");
+        }
+
+        private int xMinimo(DataGridView tabella)
+        {
+            int min = int.MaxValue;
+            int x = 0;
+            for (int righe = 0; righe < tabella.Rows.Count-1; righe++)
+            {
+                for (int colonne = 0; colonne < tabella.Columns.Count-1; colonne++)
+                {
+                    if(Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) < min)
+                    {
+                        min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                        x = colonne;
+                    }
+                }
+            }
+            return x;
+        }
+        private int yMinimo(DataGridView tabella)
+        {
+            int min = int.MaxValue;
+            int y = 0;
+            for (int righe = 0; righe < tabella.Rows.Count-1; righe++)
+            {
+                for (int colonne = 0; colonne < tabella.Columns.Count-1; colonne++)
+                {
+                    if (Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) < min)
+                    {
+                        min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                        y = righe;
+                    }
+                }
+            }
+            return y;
         }
 
         private void scriviSulTerminale(String testo)
@@ -376,17 +428,24 @@ namespace Logistica
             terminale.Refresh();
         }
 
-        private void consegnaDaA(int indiceUP, int indiceD, DataGridView tabella)
+        private int consegnaDaA(int indiceUP, int indiceD, DataGridView tabella)
         {
+            tabella.ClearSelection();
+            tabella.Refresh();
+            int costo;
             if(tabella.RowCount == 1 || tabella.ColumnCount == 1)
             {
-                return;
+                return 0;
             }
-            if(Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) > Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()))
+            tabella.Rows[indiceUP].Cells[indiceD].Style.BackColor = coloreSelezioneCella;
+            if (Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) > Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()))
             {
-                scriviSulTerminale("Consegno " + tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n");
+                costo = Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()) * Int32.Parse(tabella.Rows[indiceUP].Cells[indiceD].Value.ToString());
+                scriviSulTerminale("Consegno " + tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n\tCosto " + costo + "\n");
                 tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value = Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) - Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString());
                 tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value = 0;
+                mostraMossa(1000, tabella);
+                tabella.Columns[indiceD].DefaultCellStyle.BackColor = coloreRimozione;
                 mostraMossa(1000, tabella);
                 scriviSulTerminale(tabella.Columns[indiceD].HeaderText + " rimossa" + "\n");
                 tabella.Columns.RemoveAt(indiceD);
@@ -394,29 +453,43 @@ namespace Logistica
             }
             else if(Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) <= Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()))
             {
-                scriviSulTerminale("Consegno " + tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n");
+                costo = Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) * Int32.Parse(tabella.Rows[indiceUP].Cells[indiceD].Value.ToString());
+                scriviSulTerminale("Consegno " + tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n\tCosto " + costo + "\n");
                 tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value = - Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) + Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString());
                 tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value = 0;
                 mostraMossa(1000, tabella);
                 if (Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()) != 0)
                 {
+                    tabella.Rows[indiceUP].DefaultCellStyle.BackColor = coloreRimozione;
+                    mostraMossa(1000, tabella);
                     scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa\n");
                     tabella.Rows.RemoveAt(indiceUP);
                     mostraMossa(1000, tabella);
                 }
                 else
-                {
+                {/*
+                    tabella.Rows[indiceUP].DefaultCellStyle.BackColor = coloreRimozione;
                     scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa");
-                    tabella.Rows.RemoveAt(indiceUP);
+                    tabella.Rows.RemoveAt(indiceUP);*/
                 }
                 Console.Out.WriteLine(tabella.RowCount + " " + tabella.ColumnCount + " riochiesto " + (tabella.RowCount - 1) + " " + indiceD);
                 if(Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()) == 0)
                 {
+                    tabella.Rows[indiceUP].DefaultCellStyle.BackColor = coloreRimozione;
+                    tabella.Columns[indiceD].DefaultCellStyle.BackColor = coloreRimozione;
+                    mostraMossa(1000, tabella);
+                    scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa");
                     scriviSulTerminale(tabella.Columns[indiceD].HeaderText + " rimossa\n");
+                    tabella.Rows.RemoveAt(indiceUP);
                     tabella.Columns.RemoveAt(indiceD);
                     mostraMossa(1000, tabella);
                 }
             }
+            else
+            {
+                costo = 0;
+            }
+            return costo;
         }
 
         private void mostraMossa(int millisecondi, DataGridView tabella)
