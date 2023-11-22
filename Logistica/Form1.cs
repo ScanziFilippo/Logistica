@@ -15,7 +15,8 @@ namespace Logistica
     public partial class Form1 : Form
     {
         Color coloreRimozione = Color.FromArgb(255, 252, 122);
-        Color coloreSelezioneCella = Color.LightCoral;
+        //Color coloreSelezioneCella = Color.LightCoral
+        Color coloreSelezioneCella = Color.LightBlue;
         public Form1() 
         {
             InitializeComponent();
@@ -134,6 +135,28 @@ namespace Logistica
             }
             return false;
         }
+
+        private bool mancanzaTesto(DataGridView tabella)
+        {
+            for (int righe = 0; righe < tabella.Rows.Count; righe++)
+            {
+                for (int colonne = 0; colonne < tabella.Columns.Count; colonne++)
+                {
+                    if (righe == tabella.RowCount - 1 && colonne == tabella.ColumnCount - 1)
+                    {
+                        Console.Out.WriteLine("Vuota");
+                        return false;
+                    }
+                    if (!(tabella.Rows[righe].Cells[colonne].Value != "" && tabella.Rows[righe].Cells[colonne].Value != null && (tabella.Rows[righe].Cells[colonne].Value.ToString() != "" || tabella.Rows[righe].Cells[colonne].Value.ToString() != null)))
+                    {
+                        Console.Out.WriteLine("non vuota perchè " + righe + " " + colonne);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         private void tabellaIniziale_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -336,6 +359,24 @@ namespace Logistica
         }
         private void button5_Click(object sender, EventArgs e)
         {
+            if (tabellaIniziale.Rows[tabellaIniziale.RowCount - 1].Cells[tabellaIniziale.ColumnCount - 1].Value == "######")
+            {
+                string message = "La somma dei totali orizzontali non coincide con quella verticale.";
+                string caption = "I totali non coincidono.";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+
+                return;
+            }
+            if (mancanzaTesto(tabellaIniziale))
+            {
+                string message = "La tabella presenta celle vuote. Assicurati di riempirle tutte prima.";
+                string caption = "Tabella incompleta";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+
+                return;
+            }
             terminale.BackColor = Color.White;
             terminale.Text="";
             if (tabControl1.TabCount > 1)
@@ -391,14 +432,31 @@ namespace Logistica
         {
             int min = int.MaxValue;
             int x = 0;
+            int y = 0;
             for (int righe = 0; righe < tabella.Rows.Count-1; righe++)
             {
                 for (int colonne = 0; colonne < tabella.Columns.Count-1; colonne++)
                 {
-                    if(Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) < min)
+                    if (Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) == min)
+                    {
+                        if (Int32.Parse(tabella.Rows[y].Cells[tabella.ColumnCount - 1].Value.ToString()) > Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[x].Value.ToString()) && Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[x].Value.ToString()) < min)
+                        {
+                            min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                            x = colonne;
+                            y = righe;
+                        }
+                        else if (Int32.Parse(tabella.Rows[y].Cells[tabella.ColumnCount - 1].Value.ToString()) < Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[x].Value.ToString()) && Int32.Parse(tabella.Rows[y].Cells[tabella.ColumnCount - 1].Value.ToString()) < min)
+                        {
+                            min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                            x = colonne;
+                            y = righe;
+                        }
+                    }
+                    else if (Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) < min)
                     {
                         min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
                         x = colonne;
+                        y = righe;
                     }
                 }
             }
@@ -407,14 +465,31 @@ namespace Logistica
         private int yMinimo(DataGridView tabella)
         {
             int min = int.MaxValue;
+            int x = 0;
             int y = 0;
-            for (int righe = 0; righe < tabella.Rows.Count-1; righe++)
+            for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
             {
-                for (int colonne = 0; colonne < tabella.Columns.Count-1; colonne++)
+                for (int colonne = 0; colonne < tabella.Columns.Count - 1; colonne++)
                 {
-                    if (Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) < min)
+                    if (Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) == min)
+                    {
+                        if (Int32.Parse(tabella.Rows[y].Cells[tabella.ColumnCount - 1].Value.ToString()) > Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[x].Value.ToString()) && Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[x].Value.ToString()) < min)
+                        {
+                            min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                            x = colonne;
+                            y = righe;
+                        }
+                        else if (Int32.Parse(tabella.Rows[y].Cells[tabella.ColumnCount - 1].Value.ToString()) < Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[x].Value.ToString()) && Int32.Parse(tabella.Rows[y].Cells[tabella.ColumnCount - 1].Value.ToString()) < min)
+                        {
+                            min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                            x = colonne;
+                            y = righe;
+                        }
+                    }
+                    else if (Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString()) < min)
                     {
                         min = Int32.Parse(tabella.Rows[righe].Cells[colonne].Value.ToString());
+                        x = colonne;
                         y = righe;
                     }
                 }
@@ -496,6 +571,16 @@ namespace Logistica
         {
             Thread.Sleep(millisecondi);
             tabella.Refresh();
+        }
+
+        private void controllaMinMax(object sender, EventArgs e)
+        {
+
+        }
+
+        private void controllaMinMax2(object sender, EventArgs e)
+        {
+
         }
     }
 }
