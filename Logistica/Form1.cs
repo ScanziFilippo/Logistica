@@ -15,8 +15,7 @@ namespace Logistica
     public partial class Form1 : Form
     {
         Color coloreRimozione = Color.FromArgb(255, 252, 122);
-        //Color coloreSelezioneCella = Color.LightCoral
-        Color coloreSelezioneCella = Color.LightBlue;
+        Color coloreSelezioneCella = Color.LightCoral;
         public Form1() 
         {
             InitializeComponent();
