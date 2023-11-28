@@ -16,6 +16,7 @@ namespace Logistica
     {
         Color coloreRimozione = Color.FromArgb(255, 252, 122);
         Color coloreSelezioneCella = Color.LightCoral;
+        int millisecondi = 1000;
         public Form1() 
         {
             InitializeComponent();
@@ -194,7 +195,17 @@ namespace Logistica
 
         private void button1_Click(object sender, EventArgs e)
         {
-            generaContenutoCelle(tabellaIniziale);
+            if(controllaMinMax(numericUpDown3, numericUpDown4))
+            {
+                generaContenutoCelle(tabellaIniziale);
+            }
+            else
+            {
+                string message = "Il valore massimo è minore di quello minimo.";
+                string caption = "I valori non sono validi";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+            }
         }
         private void generaContenutoCelle(DataGridView tabella)
         {
@@ -275,7 +286,17 @@ namespace Logistica
 
         private void button2_Click(object sender, EventArgs e)
         {
-            generaTotali(tabellaIniziale);
+            if (controllaMinMax(numericUpDown6, numericUpDown5))
+            {
+                generaTotali(tabellaIniziale);
+            }
+            else
+            {
+                string message = "Il valore massimo è minore di quello minimo.";
+                string caption = "I valori non sono validi";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -358,6 +379,7 @@ namespace Logistica
         }
         private void button5_Click(object sender, EventArgs e)
         {
+            millisecondi = Int32.Parse(numericUpDown7.Value.ToString());   
             if (tabellaIniziale.Rows[tabellaIniziale.RowCount - 1].Cells[tabellaIniziale.ColumnCount - 1].Value == "######")
             {
                 string message = "La somma dei totali orizzontali non coincide con quella verticale.";
@@ -498,7 +520,9 @@ namespace Logistica
 
         private void scriviSulTerminale(String testo)
         {
-            terminale.Text += "\t" + testo + "\n";
+            terminale.AppendText("\t" + testo + "\n");
+            terminale.ScrollToCaret();
+            //terminale.Text += "\t" + testo + "\n";
             terminale.Refresh();
         }
 
@@ -518,12 +542,12 @@ namespace Logistica
                 scriviSulTerminale("Consegno " + tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n\tCosto " + costo + "\n");
                 tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value = Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) - Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString());
                 tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value = 0;
-                mostraMossa(1000, tabella);
+                mostraMossa(millisecondi, tabella);
                 tabella.Columns[indiceD].DefaultCellStyle.BackColor = coloreRimozione;
-                mostraMossa(1000, tabella);
+                mostraMossa(millisecondi, tabella);
                 scriviSulTerminale(tabella.Columns[indiceD].HeaderText + " rimossa" + "\n");
                 tabella.Columns.RemoveAt(indiceD);
-                mostraMossa(1000, tabella);
+                mostraMossa(millisecondi, tabella);
             }
             else if(Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) <= Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()))
             {
@@ -531,14 +555,14 @@ namespace Logistica
                 scriviSulTerminale("Consegno " + tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value + " scorte da " + tabella.Rows[indiceUP].HeaderCell.Value + " a " + tabella.Columns[indiceD].HeaderCell.Value + "\n\tCosto " + costo + "\n");
                 tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value = - Int32.Parse(tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value.ToString()) + Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString());
                 tabella.Rows[indiceUP].Cells[tabella.ColumnCount - 1].Value = 0;
-                mostraMossa(1000, tabella);
+                mostraMossa(millisecondi, tabella);
                 if (Int32.Parse(tabella.Rows[tabella.RowCount - 1].Cells[indiceD].Value.ToString()) != 0)
                 {
                     tabella.Rows[indiceUP].DefaultCellStyle.BackColor = coloreRimozione;
-                    mostraMossa(1000, tabella);
+                    mostraMossa(millisecondi, tabella);
                     scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa\n");
                     tabella.Rows.RemoveAt(indiceUP);
-                    mostraMossa(1000, tabella);
+                    mostraMossa(millisecondi, tabella);
                 }
                 else
                 {/*
@@ -551,12 +575,12 @@ namespace Logistica
                 {
                     tabella.Rows[indiceUP].DefaultCellStyle.BackColor = coloreRimozione;
                     tabella.Columns[indiceD].DefaultCellStyle.BackColor = coloreRimozione;
-                    mostraMossa(1000, tabella);
+                    mostraMossa(millisecondi, tabella);
                     scriviSulTerminale(tabella.Rows[indiceUP].HeaderCell.Value + " rimossa");
                     scriviSulTerminale(tabella.Columns[indiceD].HeaderText + " rimossa\n");
                     tabella.Rows.RemoveAt(indiceUP);
                     tabella.Columns.RemoveAt(indiceD);
-                    mostraMossa(1000, tabella);
+                    mostraMossa(millisecondi, tabella);
                 }
             }
             else
@@ -572,14 +596,16 @@ namespace Logistica
             tabella.Refresh();
         }
 
-        private void controllaMinMax(object sender, EventArgs e)
+        private bool controllaMinMax(NumericUpDown n1, NumericUpDown n2)
         {
-
-        }
-
-        private void controllaMinMax2(object sender, EventArgs e)
-        {
-
+            if(n1.Value > n2.Value)
+            {
+                return false;
+            }else if(n1.Value <= n2.Value)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

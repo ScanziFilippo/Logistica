@@ -21,3 +21,15 @@ C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Debug\Logisti
 C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Debug\Logistica.csproj.CoreCompileInputs.cache
 C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Debug\Logistica.exe
 C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Debug\Logistica.pdb
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\bin\Debug\Logistica.exe.config
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\bin\Debug\Logistica.exe
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\bin\Debug\Logistica.pdb
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.csproj.AssemblyReference.cache
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.csproj.SuggestedBindingRedirects.cache
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.Form1.resources
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.Form2.resources
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.Properties.Resources.resources
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.csproj.GenerateResource.cache
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.csproj.CoreCompileInputs.cache
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.exe
+C:\Users\scanzi.19041\Documents\GitHub\Logistica\Logistica\obj\Debug\Logistica.pdb

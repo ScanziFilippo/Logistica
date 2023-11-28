@@ -58,6 +58,8 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.terminale = new System.Windows.Forms.RichTextBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
@@ -73,6 +75,7 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabellaIniziale)).BeginInit();
             this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -171,7 +174,6 @@
             0,
             0,
             0});
-            this.numericUpDown5.ValueChanged += new System.EventHandler(this.controllaMinMax2);
             // 
             // numericUpDown6
             // 
@@ -190,7 +192,6 @@
             0,
             0,
             0});
-            this.numericUpDown6.ValueChanged += new System.EventHandler(this.controllaMinMax2);
             // 
             // button2
             // 
@@ -229,7 +230,6 @@
             0,
             0,
             0});
-            this.numericUpDown4.ValueChanged += new System.EventHandler(this.controllaMinMax);
             // 
             // label4
             // 
@@ -267,11 +267,12 @@
             0,
             0,
             0});
-            this.numericUpDown3.ValueChanged += new System.EventHandler(this.controllaMinMax);
             // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.numericUpDown7);
             this.panel3.Controls.Add(this.button5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel3.Location = new System.Drawing.Point(1233, 0);
@@ -283,7 +284,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(22, 10);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(205, 74);
+            this.button5.Size = new System.Drawing.Size(145, 74);
             this.button5.TabIndex = 14;
             this.button5.Text = "RISOLVI TUTTO!";
             this.button5.UseVisualStyleBackColor = true;
@@ -319,7 +320,7 @@
             this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown2.TabIndex = 5;
             this.numericUpDown2.Value = new decimal(new int[] {
-            1,
+            3,
             0,
             0,
             0});
@@ -342,7 +343,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 4;
             this.numericUpDown1.Value = new decimal(new int[] {
-            1,
+            3,
             0,
             0,
             0});
@@ -462,6 +463,38 @@
             this.panel6.Size = new System.Drawing.Size(424, 511);
             this.panel6.TabIndex = 3;
             // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.Location = new System.Drawing.Point(176, 48);
+            this.numericUpDown7.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(61, 20);
+            this.numericUpDown7.TabIndex = 6;
+            this.numericUpDown7.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(171, 25);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Millisecondi";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -485,6 +518,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -494,6 +528,7 @@
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabellaIniziale)).EndInit();
             this.panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -529,6 +564,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.RichTextBox terminale;
         private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown numericUpDown7;
     }
 }
 
