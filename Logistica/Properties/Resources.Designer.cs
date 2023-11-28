@@ -63,6 +63,16 @@ namespace Logistica.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap europa {
+            get {
+                object obj = ResourceManager.GetObject("europa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap vittorio_veneto_3_1024x702 {
             get {
                 object obj = ResourceManager.GetObject("vittorio-veneto-3-1024x702", resourceCulture);
