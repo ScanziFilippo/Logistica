@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,8 +18,10 @@ namespace Logistica
         Color coloreRimozione = Color.FromArgb(255, 252, 122);
         Color coloreSelezioneCella = Color.LightCoral;
         int millisecondi = 1000;
-        public Form1() 
+        Form2 launcher;
+        public Form1(Form2 launcher) 
         {
+            this.launcher = launcher;
             InitializeComponent();
             this.AllowTransparency = false;
             /*BackColor = Color.Azure;
@@ -27,6 +30,46 @@ namespace Logistica
             tabellaIniziale.ForeColor = Color.Black;
             aggiornaRigheTabella(tabellaIniziale, 3);
             aggiornaColonneTabella(tabellaIniziale, 3);
+        }
+
+        public Form1(Form2 launcher, Boolean b)
+        {
+            this.launcher = launcher;
+            InitializeComponent();
+            this.AllowTransparency = false;
+            /*BackColor = Color.Azure;
+            TransparencyKey = Color.Azure;*/
+            tabellaIniziale.Font = new Font("Arial", 10);
+            tabellaIniziale.ForeColor = Color.Black;
+            aggiornaRigheTabella(tabellaIniziale, 3);
+            aggiornaColonneTabella(tabellaIniziale, 3);
+            importaDaAppunti();
+        }
+
+        private void importaDaAppunti()
+        {
+            string appunti = Clipboard.GetText();
+            string[] stringheRighe = appunti.Split('\n');
+            int righe = appunti.Count(f => f == '\n');
+            int colonne = stringheRighe[0].Count(f => f == '\t');
+            aggiornaRigheTabella(tabellaIniziale, righe-1);
+            aggiornaColonneTabella(tabellaIniziale, colonne);
+            for (int r = 0; r < righe; r++)
+            {
+                string[] stringheColonne = stringheRighe[r].Split('\t');
+                for (int c = 0; c <= colonne; c++)
+                {
+                    if(c == colonne)
+                    {
+                        tabellaIniziale.Rows[r].Cells[c].Value = stringheColonne[c].Substring(0, stringheColonne[c].Length-1);
+                    }
+                    else
+                    {
+                        tabellaIniziale.Rows[r].Cells[c].Value = stringheColonne[c];
+                    }
+                }
+            }
+            calcolaTotale(tabellaIniziale);
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -113,6 +156,7 @@ namespace Logistica
                     tabella.Columns[colonne].HeaderCell.Value = "Destinazione " + (colonne + 1);
                 }
             }
+
         }
 
         private bool presenzaTesto(DataGridView tabella)
@@ -168,7 +212,7 @@ namespace Logistica
             if(tabella.ColumnCount > 0 && tabella.RowCount > 0)
             {
                 //Console.Out.WriteLine("sc");
-                
+                Console.Out.WriteLine(sommaOrizzontale(tabella) + " " + sommaVerticale(tabella));
                 
                 if(sommaOrizzontale(tabella) != sommaVerticale(tabella))
                 {
@@ -209,6 +253,21 @@ namespace Logistica
         }
         private void generaContenutoCelle(DataGridView tabella)
         {
+            if (presenzaTesto(tabella))
+            {
+                string message = "Generando il contenuto delle celle si potrebbe cancellare parzialmente o totalmente i dati contenuti. Continuare?";
+                string caption = "La tabella non è vuota";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+
+                // Displays the MessageBox.
+                result = MessageBox.Show(message, caption, buttons);
+                if (result == System.Windows.Forms.DialogResult.No)
+                {
+                    numericUpDown2.Value = tabella.ColumnCount - 1;
+                    return;
+                }
+            }
             int minimo = Int32.Parse(numericUpDown3.Value.ToString());
             int massimo = Int32.Parse(numericUpDown4.Value.ToString());
             Random casuale= new Random();
@@ -306,6 +365,18 @@ namespace Logistica
 
         private void eliminaContenutoCelle(DataGridView tabella)
         {
+            string message = "Così eliminerai il contenuto delle celle. Continuare?";
+            string caption = "Eliminazione dati";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            if (result == System.Windows.Forms.DialogResult.No)
+            {
+                numericUpDown2.Value = tabella.ColumnCount - 1;
+                return;
+            }
             for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
             {
                 for (int colonne = 0; colonne < tabella.Columns.Count - 1; colonne++)
@@ -317,6 +388,18 @@ namespace Logistica
 
         private void eliminaTotali(DataGridView tabella)
         {
+            string message = "Così eliminerai i totali delle celle. Continuare?";
+            string caption = "Eliminazione dati";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            if (result == System.Windows.Forms.DialogResult.No)
+            {
+                numericUpDown2.Value = tabella.ColumnCount - 1;
+                return;
+            }
             for (int righe = 0; righe < tabella.Rows.Count - 1; righe++)
             {
                 tabella.Rows[righe].Cells[tabella.ColumnCount - 1].Value = "";
@@ -606,6 +689,11 @@ namespace Logistica
                 return true;
             }
             return false;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            launcher.Show();
         }
     }
 }
