@@ -10,3 +10,11 @@ C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.csp
 C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.csproj.CoreCompileInputs.cache
 C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.exe
 C:\Users\scanzi.19041\source\repos\Logistica\Logistica\obj\Release\Logistica.pdb
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.csproj.AssemblyReference.cache
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.Form1.resources
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.Form2.resources
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.Properties.Resources.resources
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.csproj.GenerateResource.cache
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.csproj.CoreCompileInputs.cache
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.exe
+C:\Users\Filippo\Documents\Unreal Projects\Logistica\Logistica\obj\Release\Logistica.pdb

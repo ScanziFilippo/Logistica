@@ -50,14 +50,13 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(225, 503);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Form2_Paint);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Black;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(27, 108);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(170, 33);
@@ -96,13 +95,12 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(96, 199);
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(102, 199);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(341, 73);
             this.label1.TabIndex = 0;
             this.label1.Text = "Benvenuto";
-            this.label1.Paint += new System.Windows.Forms.PaintEventHandler(this.a);
             // 
             // panel2
             // 
@@ -119,6 +117,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(738, 503);
             this.Controls.Add(this.panel2);
@@ -128,7 +127,6 @@
             this.MinimumSize = new System.Drawing.Size(754, 542);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form2";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form2_Paint);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

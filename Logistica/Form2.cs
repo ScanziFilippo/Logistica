@@ -26,10 +26,5 @@ namespace Logistica
         {
             e.Graphics.Clear(Color.Transparent);
         }
-
-        private void a(object sender, PaintEventArgs e)
-        {
-            ((Label)sender).BackColor = Color.Black;
-        }
     }
 }
